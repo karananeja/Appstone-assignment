@@ -1,0 +1,15 @@
+.table__container {
+  border-radius: 15px;
+  margin: 10px 10px;
+  max-width: 550px;
+}
+
+.table__headerCell {
+  font-weight: bold;
+  background-color: lightblue;
+  color: white;
+}
+
+.MuiSvgIcon-root {
+  cursor: pointer;
+}
