@@ -9,17 +9,18 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import { ArrowCircleUp, ArrowCircleDown } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import '../css/MTable.css';
 
 const MTable = () => {
-  // const [newArray, setNewArray] = useState(data);
   const url = 'https://reqres.in/api/users?page=2';
   const [urlData, setUrlData] = useState([]);
+  const [inputSearch, setInputSearch] = useState('');
+  // const [newArray, setNewArray] = useState(urlData);
 
   // const handleUpChange = (index) => {
-  //   let newData = [...newArray];
+  //   let newData = [...urlData];
   //   if (index > 0) {
   //     let temp = newData[index - 1];
   //     newData[index - 1] = newData[index];
@@ -51,20 +52,34 @@ const MTable = () => {
     fetchUrl();
   }, []);
 
+  const searchInput = () => {
+    let searchData = [...urlData];
+
+    for (let i = 0; i < urlData.length; i++) {
+      if (
+        urlData[i]['first_name'].toLowerCase() === inputSearch.toLowerCase()
+      ) {
+        console.log('success');
+      }
+      // console.log(urlData[i]['first_name']);
+    }
+  };
+
   return (
     <div className='table'>
-      <TableContainer component={Paper} className='table__container'>
-        <Table aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell className='table__headerCell' />
-              <TableCell className='table__headerCell'>First Name</TableCell>
-              <TableCell className='table__headerCell'>Last Name</TableCell>
-              <TableCell className='table__headerCell' />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* {newArray.map(({ id, name, email }, index) => (
+      <div className='table__up'>
+        <TableContainer component={Paper} className='table__container'>
+          <Table aria-label='simple table'>
+            <TableHead>
+              <TableRow>
+                <TableCell className='table__headerCell' />
+                <TableCell className='table__headerCell'>First Name</TableCell>
+                <TableCell className='table__headerCell'>Last Name</TableCell>
+                <TableCell className='table__headerCell' />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {/* {newArray.map(({ id, name, email }, index) => (
               <TableRow key={index}>
                 <TableCell>
                   <ArrowCircleUpIcon onClick={() => handleUpChange(index)} />
@@ -79,21 +94,34 @@ const MTable = () => {
                 </TableCell>
               </TableRow>
             ))} */}
-            {urlData.map((data) => (
-              <TableRow key={data.id}>
-                <TableCell>
-                  <ArrowCircleUpIcon />
-                </TableCell>
-                <TableCell>{data['first_name']}</TableCell>
-                <TableCell>{data['last_name']}</TableCell>
-                <TableCell>
-                  <ArrowCircleDownIcon />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              {urlData.map(({ id, first_name, last_name }) => (
+                <TableRow key={id}>
+                  <TableCell>
+                    <ArrowCircleUp />
+                  </TableCell>
+                  <TableCell>{first_name}</TableCell>
+                  <TableCell>{last_name}</TableCell>
+                  <TableCell>
+                    <ArrowCircleDown />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <div className='table__down'>
+        <div className='table__downInput'>
+          <input
+            className='table__input'
+            type='text'
+            placeholder='Search First Name'
+            value={inputSearch}
+            onChange={(e) => setInputSearch(e.target.value)}
+          />
+          <Search onClick={searchInput} />
+        </div>
+      </div>
     </div>
   );
 };
